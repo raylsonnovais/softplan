@@ -1,0 +1,372 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: raylson.silva
+      changes:
+        # Tabela de Filiais
+        - createTable:
+            tableName: filiais
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(255)
+              - column:
+                  name: localizacao
+                  type: varchar(255)
+              - column:
+                  name: detalhes
+                  type: varchar(500)
+
+        # Tabela de Mesas
+        - createTable:
+            tableName: mesas
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_da_filial
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: numero
+                  type: INT
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_da_filial
+                  baseTableName: mesas
+                  referencedColumnNames: id
+                  referencedTableName: filiais
+
+        # Tabela de Itens do Menu
+        - createTable:
+            tableName: itens_menu
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(255)
+              - column:
+                  name: preco
+                  type: decimal(10,2)
+              - column:
+                  name: descricao
+                  type: varchar(500)
+              - column:
+                  name: tipo
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+
+        # Tabela de Pedidos
+        - createTable:
+            tableName: pedidos
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_da_mesa
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: TIMESTAMP
+              - column:
+                  name: total
+                  type: DECIMAL(10,2)
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_da_mesa
+                  baseTableName: pedidos
+                  referencedColumnNames: id
+                  referencedTableName: mesas
+
+        # Tabela de Itens do Pedido
+        - createTable:
+            tableName: itens_do_pedido
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_do_pedido
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_do_item_menu
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantidade
+                  type: INT
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_do_pedido
+                  baseTableName: itens_do_pedido
+                  referencedColumnNames: id
+                  referencedTableName: pedidos
+              - foreignKeyConstraint:
+                  baseColumnNames: id_do_item_menu
+                  baseTableName: itens_do_pedido
+                  referencedColumnNames: id
+                  referencedTableName: itens_menu
+
+        # Tabela de Transações
+        - createTable:
+            tableName: transacoes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_do_pedido
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: metodoDePagamento
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: TIMESTAMP
+              - column:
+                  name: total
+                  type: DECIMAL(10,2)
+              - column:
+                  name: status
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_do_pedido
+                  baseTableName: transacoes
+                  referencedColumnNames: id
+                  referencedTableName: pedidos
+
+        # Tabela de Usuários
+        - createTable:
+            tableName: usuarios
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: senha_hash
+                  type: VARCHAR(255)
+              - column:
+                  name: tipo
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_criacao
+                  type: TIMESTAMP
+              - column:
+                  name: data_atualizacao
+                  type: TIMESTAMP
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+
+        # Tabela de Sessões
+        - createTable:
+            tableName: sessoes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_do_usuario
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: VARCHAR(255)
+              - column:
+                  name: data_criacao
+                  type: TIMESTAMP
+              - column:
+                  name: data_expiracao
+                  type: TIMESTAMP
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_do_usuario
+                  baseTableName: sessoes
+                  referencedColumnNames: id
+                  referencedTableName: usuarios
+
+        # Tabela de Logs de Ações
+        - createTable:
+            tableName: logs_de_acoes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_do_usuario
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: acao
+                  type: VARCHAR(255)
+              - column:
+                  name: detalhes
+                  type: VARCHAR(500)
+              - column:
+                  name: data_hora
+                  type: TIMESTAMP
+              - column:
+                  name: ip
+                  type: VARCHAR(50)
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: id_do_usuario
+                  baseTableName: logs_de_acoes
+                  referencedColumnNames: id
+                  referencedTableName: usuarios
+
+        # Tabela de Métodos de Pagamento
+        - createTable:
+            tableName: pagamentos
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: VARCHAR(500)
+              - column:
+                  name: data_de_criacao
+                  type: TIMESTAMP
+              - column:
+                  name: data_de_aprovacao
+                  type: TIMESTAMP
+              - column:
+                  name: valor_total
+                  type: DECIMAL(10,2)
+              - column:
+                  name: metodo_de_pagamento_id
+                  type: VARCHAR(255)
+              - column:
+                  name: metodo_de_pagamento_nome
+                  type: VARCHAR(255)
+              - column:
+                  name: pedido_id
+                  type: BIGINT
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: pedido_id
+                  baseTableName: pagamentos
+                  referencedColumnNames: id
+                  referencedTableName: pedidos
+
+        # Tabela de Detalhes do Pagador
+        - createTable:
+            tableName: detalhes_do_pagador
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nome
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: tipo_identidade
+                  type: varchar(50)
+              - column:
+                  name: numero_identidade
+                  type: varchar(15)
+              - column:
+                  name: pagamento_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_detalhes_do_pagador_pagamento
+                    referencedTableName: pagamentos
+                    referencedColumnNames: id
