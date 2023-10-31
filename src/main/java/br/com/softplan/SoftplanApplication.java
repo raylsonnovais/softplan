@@ -16,7 +16,6 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 @EnableCaching
 public class SoftplanApplication {
 
-
     public static void main(String[] args) {
         SpringApplication.run(SoftplanApplication.class, args);
     }
