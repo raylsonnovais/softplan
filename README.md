@@ -5,10 +5,14 @@
 - [Introdução](#introdução)
 - [Tecnologias e Dependências](#tecnologias-e-dependências)
 - [Arquitetura](#arquitetura)
-- [Modelo de Dados](#modelo-de-dados)
-- [Segurança](#segurança)
-- [Elasticidade e Escalabilidade](#elasticidade-e-escalabilidade)
-- [Monitoramento](#monitoramento)
+  - [Base e Estrutura](#base-e-estrutura)
+  - [Armazenamento e Persistência](#armazenamento-e-persistência)
+  - [Comunicação e Interface](#comunicação-e-interface)
+  - [Segurança](#segurança)
+  - [Pagamento e Integração](#pagamento-e-integração)
+  - [Monitoramento e Manutenção](#monitoramento-e-manutenção)
+  - [Integração com Cloud](#integração-com-cloud)
+- [Swagger Documentation](#swagger-documentation)
 - [Considerações Finais](#considerações-finais)
 
 ## Introdução
@@ -83,6 +87,10 @@ A aplicação Softplan é um sistema projetado para gerenciamento de restaurante
 - **AWS SDK & Spring Cloud AWS**: Preparando-se para o futuro, a aplicação tem todas as ferramentas necessárias para integração com a Amazon Web Services (AWS). Seja para armazenamento, processamento ou escalabilidade, a AWS oferece uma gama de serviços que a aplicação pode explorar.
 
 A escolha desta combinação de tecnologias e frameworks visa não apenas atender aos requisitos atuais da aplicação, mas também prepará-la para desafios futuros, assegurando que ela permaneça atualizada, escalável e manutenível.
+
+### Swagger Documentation
+
+Para uma visão detalhada e interativa da API, consulte a documentação Swagger disponível em [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html).
 
 ## Considerações Finais
 
